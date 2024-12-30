@@ -1,3 +1,5 @@
+name = "ChartServer"
+
 [deps]
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
 CryptoMarketData = "57973c84-8724-49d2-9af5-7f2266b21095"
@@ -6,8 +8,10 @@ Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 LightweightCharts = "d6998af1-87ca-4e7f-83d4-864c79a249fa"
 MarketData = "945b72a4-3b13-509d-9b46-1525bb5c06de"
+Mustache = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
 NanoDates = "46f1a544-deae-4307-8689-c12aa3c955c6"
 OnlineTechnicalIndicators = "dc2d07fb-478f-4566-8417-81bb3e5a7af1"
 Oxygen = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
 Rocket = "df971d30-c9d6-4b37-b8ff-e965b2cb3a40"
 TechnicalIndicatorCharts = "ffc6123f-ba44-4b2f-a8ce-46f3306b22af"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"

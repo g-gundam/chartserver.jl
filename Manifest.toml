@@ -2,7 +2,7 @@
 
 julia_version = "1.11.2"
 manifest_format = "2.0"
-project_hash = "cb0389a2bf6922ea9580c09aa0ee3e944a0dcb10"
+project_hash = "e7bda999accebfd3689118c01e32c72321e4b733"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -365,6 +365,12 @@ version = "0.8.1"
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2023.12.12"
+
+[[deps.Mustache]]
+deps = ["Printf", "Tables"]
+git-tree-sha1 = "3b2db451a872b20519ebb0cec759d3d81a1c6bcb"
+uuid = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
+version = "1.0.20"
 
 [[deps.NanoDates]]
 deps = ["Dates", "Parsers"]
