@@ -1,6 +1,7 @@
 [deps]
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
 CryptoMarketData = "57973c84-8724-49d2-9af5-7f2266b21095"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 LightweightCharts = "d6998af1-87ca-4e7f-83d4-864c79a249fa"
