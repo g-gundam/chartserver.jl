@@ -28,3 +28,8 @@ end
 #    include("chartserver.jl")
 #
 # You get to `start()` and `stop()` the server.
+@info(
+    "ChartServer",
+    fyi="You may now `start()` and `stop()` the server.",
+    also="ChartServer has been abbreviated to CS."
+)
