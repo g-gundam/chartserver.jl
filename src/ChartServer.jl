@@ -3,6 +3,7 @@ using Oxygen; @oxidise
 using HTTP
 using HTTP: WebSockets
 using Mustache
+using JSON3
 
 using Rocket
 using UUIDs
@@ -47,8 +48,17 @@ end
     room_join(:demo, ws)
     # echo server for now
     # but what do we want this long-lived connection to do?
-    for msg in ws
-        WebSockets.send(ws, msg)
+    for data in ws
+        try
+            msg = JSON3.read(data)
+            if msg.type == "subscribe"
+                @info :subscribe message="still figuring this part out"
+            else
+                WebSockets.send(ws, "unknown msg.type :: $(JSON3.write(msg))")
+            end
+        catch err
+            WebSockets.send(ws, "[echo] $(data)")
+        end
     end
     # When the connection closes, the @repeat task up top will clean them out of ROOMS eventually.
     # Doing it immediately caused errors that I didn't understand.
