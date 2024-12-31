@@ -10,8 +10,11 @@ using Mustache
 
 global __T__
 
-function start()
-    Main.__T__ = @task CS.serve(revise=:eager)
+# INFO: It passes whatever kwargs you give it to ChartServer.serve.  It just adds :revise=>:eager by default.
+function start(;kwargs...)
+    defaults = Dict{Symbol,Any}(:revise => :eager)
+    newkwargs = merge(defaults, kwargs)
+    Main.__T__ = @task CS.serve(;newkwargs...)
     schedule(Main.__T__)
 end
 
