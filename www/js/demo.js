@@ -10,13 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 640
   };
   const chart = LightweightCharts.createChart(container, chartOptions)
+
+  // TODO: In the next iteration, all this config info needs to come from the server.
+  // I want chart state on the server to be reflected on the client in realtime.
   const candlestickSeries = chart.addCandlestickSeries({
     upColor: '#26a69a', downColor: '#ef5350', borderVisible: false,
     wickUpColor: '#26a69a', wickDownColor: '#ef5350',
   });
+  const sma50 = chart.addLineSeries({ color: "#E072A4", width: 2 })
+  const sma200 = chart.addLineSeries({ color: "#3D3B8E", width: 5 })
 
+  // WebSockets
   const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
   const wsUrl = `${wsProtocol}://${location.host}/demo-ws`
+  console.info(wsUrl)
   const ws = new WebSocket(wsUrl)
   ws.onopen = (ev) => {
     console.log('connected')
