@@ -1,5 +1,19 @@
 using Rocket
 
+function make_timearrays_candles(ta::TimeArray, interval::Base.RefValue{Dates.Period})
+    Rocket.make(Candle) do actor
+        for row in ta
+            (date, vv) = row
+            ts = DateTime(date)
+            (o, h, l, c, v) = vv
+            candle = Candle(;ts, o, h, l, c, v)
+            next!(actor, candle)
+            sleep(interval[])
+        end
+        complete!(actor)
+    end
+end
+
 # consumes: Candle
 # emits:    Tuple{Symbol, Symbol, Candle}
 #           Tuple{Symbol, Symbol, Float64}
