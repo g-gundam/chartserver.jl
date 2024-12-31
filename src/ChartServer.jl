@@ -59,7 +59,6 @@ chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
 dynamicfiles(joinpath(ROOT, "www", "css"), "css")
 dynamicfiles(joinpath(ROOT, "www", "js"), "js")
 dynamicfiles(joinpath(ROOT, "www", "images"), "images")
-@info :paths ROOT joinpath(ROOT, "www", "js")
 
 # routes
 @get "/" function(req::HTTP.Request)
@@ -67,7 +66,7 @@ dynamicfiles(joinpath(ROOT, "www", "images"), "images")
 end
 
 @websocket "/demo-ws" function(ws::HTTP.WebSocket)
-    @info "demo-ws" message="connect" uuid=ws.id
+    @info :connect id=ws.id
     # make them a member of the :demo room on connect
     room_join(:demo, ws)
     # echo server for now
@@ -77,10 +76,14 @@ end
             msg = JSON3.read(data)
             if msg.type == "subscribe"
                 @info :subscribe id=ws.id message="still figuring this part out"
+            elseif msg.type == "id"
+                @info :id id=ws.id
+                WebSockets.send(ws, JSON3.write(Dict(:id => ws.id)))
             else
                 WebSockets.send(ws, "unknown msg.type :: $(JSON3.write(msg))")
             end
         catch err
+            @error :exception err
             WebSockets.send(ws, "[echo] $(data)")
         end
     end
