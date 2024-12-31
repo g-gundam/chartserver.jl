@@ -16,10 +16,24 @@ julia> ]
 (ChartServer) pkg> <backspace>
 
 julia> include("chartserver.jl")
+┌ Info: ChartServer
+│   fyi = "You may now `start()` and `stop()` the server."
+└   also = "ChartServer has been abbreviated to CS."
 
 julia> start()  # start the server in a background task
 
 julia> stop()   # stop the server
+```
+
+## Hacking
+
+```julia-repl
+julia> CS.ROOMS
+Dict{Symbol, Set{WebSocket}} with 1 entry:
+  :demo => Set()
+
+# Revise doesn't notice template changes, so this is one workaround.
+julia> CS.render_demo = Mustache.load(joinpath(CS.ROOT, "tmpl", "demo.html"))
 ```
 
 # Log
