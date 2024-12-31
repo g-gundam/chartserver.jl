@@ -7,6 +7,7 @@ using JSON3
 
 using Rocket
 using UUIDs
+using Dates
 
 using CryptoMarketData
 using OnlineTechnicalIndicators
@@ -30,6 +31,29 @@ include("rooms.jl") # room_join, room_broadcast
     end
 end
 
+## Rocket setup
+include("rocket.jl")
+aapl_chart = Chart(
+    "AAPL", Week(1),
+    indicators = [
+        SMA{Float64}(period=50),          # Setup indicators
+        SMA{Float64}(period=200),
+    ],
+    visuals = [
+        Dict(
+            :label_name => "SMA 50",      # Describe how to draw indicators
+            :line_color => "#E072A4",
+            :line_width => 2
+        ),
+        Dict(
+            :label_name => "SMA 200",
+            :line_color => "#3D3B8E",
+            :line_width => 5
+        )
+    ]
+)
+chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
+
 # static files (but using dynamic during development)
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
 dynamicfiles(joinpath(ROOT, "www", "css"), "css")
@@ -52,7 +76,7 @@ end
         try
             msg = JSON3.read(data)
             if msg.type == "subscribe"
-                @info :subscribe message="still figuring this part out"
+                @info :subscribe id=ws.id message="still figuring this part out"
             else
                 WebSockets.send(ws, "unknown msg.type :: $(JSON3.write(msg))")
             end
@@ -67,6 +91,10 @@ end
 render_demo = Mustache.load(joinpath(ROOT, "tmpl", "demo.html"))
 @get "/demo" function(req::HTTP.Request)
     render_demo()
+end
+
+# return the latest candles as JSON
+@get "/demo/latest" function(req::HTTP.Request)
 end
 
 end
