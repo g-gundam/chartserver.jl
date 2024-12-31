@@ -33,6 +33,8 @@ end
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
 dynamicfiles(joinpath(ROOT, "www", "css"), "css")
 dynamicfiles(joinpath(ROOT, "www", "js"), "js")
+dynamicfiles(joinpath(ROOT, "www", "images"), "images")
+@info :paths ROOT joinpath(ROOT, "www", "js")
 
 # routes
 @get "/" function(req::HTTP.Request)
@@ -52,12 +54,9 @@ end
     # Doing it immediately caused errors that I didn't understand.
 end
 
+render_demo = Mustache.load(joinpath(ROOT, "tmpl", "demo.html"))
 @get "/demo" function(req::HTTP.Request)
-    """
-    js to setup a chart
-    js to load initial chart state via HTTP
-    js to setup a websocket connection to get chart state updates
-    """
+    render_demo()
 end
 
 end
