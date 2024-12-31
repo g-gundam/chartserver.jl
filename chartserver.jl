@@ -2,6 +2,12 @@ using Revise
 using Oxygen
 import ChartServer as CS
 
+# for REPL use
+using Dates
+using OnlineTechnicalIndicators
+using TechnicalIndicatorCharts
+using Mustache
+
 global __T__
 
 function start()
