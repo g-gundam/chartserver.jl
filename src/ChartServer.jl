@@ -53,6 +53,8 @@ aapl_chart = Chart(
     ]
 )
 chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
+INTERVAL = Ref(Millisecond(100))
+candle_observable = make_timearrays_candles(AAPL, INTERVAL)
 
 # static files (but using dynamic during development)
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
