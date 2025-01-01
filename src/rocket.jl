@@ -1,5 +1,6 @@
 using Rocket
 using TechnicalIndicatorCharts
+using NanoDates
 
 """    make_timearrays_candles(ta::TimeArray, interval::Base.RefValue) :: FunctionObservable
 
@@ -83,12 +84,30 @@ function Rocket.on_next!(subject::ChartSubject, c::Candle)
     end
 end
 
-@kwdef mutable struct WebSocketSubject <: Rocket.AbstractActor{Any}
+@kwdef mutable struct WebSocketActor <: NextActor{Any}
     websockets::Vector = []
 end
 
-function Rocket.on_next!(subject::WebSocketSubject, c::Tuple{Symbol,Symbol,Candle})
+function to_lwc_candle(c::Candle)
+    (
+        ts=nanodate2unixseconds(NanoDate(c.ts)),
+        open=c.o,
+        high=c.h,
+        low=c.l,
+        close=c.c,
+        volume=c.v
+    )
 end
 
-function Rocket.on_next!(subject::WebSocketSubject, v::Tuple{Symbol,Symbol,Float64})
+function Rocket.on_next!(actor::WebSocketActor, c::Tuple{Symbol,Symbol,Candle})
+    (chart, action, candle) = c
+    msg = (
+        type=action,
+        series="ohlc",
+        data=to_lwc_candle(candle)
+    )
+    room_broadcast(:demo, JSON3.write(msg))
+end
+
+function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,Float64})
 end
