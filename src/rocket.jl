@@ -32,6 +32,9 @@ function make_timearrays_candles(ta::TimeArray, interval::Base.RefValue) # TODO:
     end
 end
 
+# The purpose of a ChartSubject is to feed candles to the Chart structs it has been asked to manage.
+# These candles should all come from one market.
+#
 # consumes: Candle
 # emits:    Tuple{Symbol, Symbol, Candle}
 #           Tuple{Symbol, Symbol, Float64}
@@ -49,6 +52,8 @@ function Rocket.on_subscribe!(subject::ChartSubject, actor)
     return voidTeardown
 end
 
+const STANDARD_FIELDS = Set(["ts", "o", "h", "l", "c", "v"])
+
 function Rocket.on_next!(subject::ChartSubject, c::Candle)
     for (k, v) in subject.charts
         complete_candle = TechnicalIndicatorCharts.update!(v, c)
@@ -56,8 +61,11 @@ function Rocket.on_next!(subject::ChartSubject, c::Candle)
             # This is the :add block.
             for s in subject.subscribers
                 next!(s, (k, :add, complete_candle))
-                # TODO: Also send everything that is not OHLCV.
-                #next!(s, (k, :add, all-non-ohlcv-fields ))
+                # Also send everything that is not OHLCV.
+                for field in setdiff(names(v.df), STANDARD_FIELDS)
+                    # INFO: Currently sending one field at a time, but it could be batched.
+                    next!(s, (k, :add, v.df[end, field]))
+                end
             end
         else
             # This is the :update block.
@@ -70,4 +78,14 @@ function Rocket.on_next!(subject::ChartSubject, c::Candle)
         end
         yield()
     end
+end
+
+@kwdef mutable struct WebSocketSubject <: Rocket.AbstractActor{Any}
+    websockets::Vector = []
+end
+
+function Rocket.on_next!(subject::WebSocketSubject, c::Tuple{Symbol,Symbol,Candle})
+end
+
+function Rocket.on_next!(subject::WebSocketSubject, v::Tuple{Symbol,Symbol,Float64})
 end
