@@ -1,6 +1,6 @@
 using Rocket
 
-function make_timearrays_candles(ta::TimeArray, interval::Base.RefValue{Dates.Period})
+function make_timearrays_candles(ta::TimeArray, interval::Base.RefValue) # TODO: define type for interval more precisely
     Rocket.make(Candle) do actor
         for row in ta
             (date, vv) = row
