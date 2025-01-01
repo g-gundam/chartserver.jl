@@ -64,7 +64,10 @@ function Rocket.on_next!(subject::ChartSubject, c::Candle)
                 # Also send everything that is not OHLCV.
                 for field in setdiff(names(v.df), STANDARD_FIELDS)
                     # INFO: Currently sending one field at a time, but it could be batched.
-                    next!(s, (k, :add, v.df[end, field]))
+                    value = v.df[end, field]
+                    if !ismissing(value)
+                        next!(s, (k, :add, value))
+                    end
                 end
             end
         else
