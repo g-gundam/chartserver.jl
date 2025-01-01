@@ -101,7 +101,7 @@ candle_observable = make_timearrays_candles(AAPL, INTERVAL)
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
 dynamicfiles(joinpath(ROOT, "www", "css"), "css")
 dynamicfiles(joinpath(ROOT, "www", "js"), "js")
-dynamicfiles(joinpath(ROOT, "www", "images"), "images")
+staticfiles(joinpath(ROOT, "www", "images"), "images")
 
 # routes
 @get "/" function(req::HTTP.Request)
