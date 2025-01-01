@@ -65,6 +65,11 @@ aapl_chart = Chart(
         )
     ]
 )
+
+"""
+`chart_subject` consumes `Candle`s for 1 market and feeds them to the `Chart`s it has been asked to manage.
+It emits change notifications as tuples when a value has been updated or added to a chart in its care.
+"""
 chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
 
 """
