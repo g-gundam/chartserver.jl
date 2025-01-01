@@ -20,6 +20,13 @@ const ROOT = dirname(dirname(@__FILE__))
 
 # Setup a dictionary of rooms, and
 # setup a default demo room.
+"""
+`ROOMS` is a Dict that maps Symbols to Sets of WebSockets.
+The Symbols represent room names, and the WebSockets are the clients
+who are currently in those rooms.
+
+> I'm not sure if `Set` was the right container to put those `WebSocket`s in, but I wanted to enforce uniqueness.
+"""
 ROOMS = Dict{Symbol, Set{HTTP.WebSocket}}(:demo => Set{HTTP.WebSocket}())
 include("rooms.jl") # room_join, room_broadcast
 
@@ -33,6 +40,12 @@ end
 
 ## Rocket setup
 include("rocket.jl")
+
+"""
+`aapl_chart` is a `TechnicalIndicatorCharts.Chart` of the
+`MarketData.AAPL` data aggregated into 1 week candles.  A weekly 50
+SMA and 200 SMA are also calculated for this chart.
+"""
 aapl_chart = Chart(
     "AAPL", Week(1),
     indicators = [
@@ -53,7 +66,30 @@ aapl_chart = Chart(
     ]
 )
 chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
+
+"""
+This is a Ref that you can manipulate to change the rate at which `candle_observable` emits candles.
+
+# Example
+
+```julia-repl
+julia> CS.INTERVAL
+Base.RefValue{Millisecond}(Millisecond(100))
+
+julia> CS.INTERVAL[] = Millisecond(2000) # slow it down to 1 candle every 2 seconds
+2000 milliseconds
+
+julia> CS.INTERVAL
+Base.RefValue{Millisecond}(Millisecond(2000))
+```
+"""
 INTERVAL = Ref(Millisecond(100))
+
+"""
+This observable takes data from `MarketData.AAPL`
+and emits each row as a `TechnicalIndicatorCharts.Candle`
+at a rate of one candle per `CS.INTERVAL`.
+"""
 candle_observable = make_timearrays_candles(AAPL, INTERVAL)
 
 # static files (but using dynamic during development)
@@ -64,7 +100,7 @@ dynamicfiles(joinpath(ROOT, "www", "images"), "images")
 
 # routes
 @get "/" function(req::HTTP.Request)
-    html("<a href=\"/demo\">demo</a>")
+    html("""<a href="/demo">demo</a>""")
 end
 
 @websocket "/demo-ws" function(ws::HTTP.WebSocket)
