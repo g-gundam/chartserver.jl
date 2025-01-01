@@ -1,5 +1,23 @@
 using Rocket
+using TechnicalIndicatorCharts
 
+"""    make_timearrays_candles(ta::TimeArray, interval::Base.RefValue) :: FunctionObservable
+
+Return a FunctionObservable that will emit one candle from `ta` at the given `interval`.
+
+# Example:
+
+```julia-repl
+julia> interval = Ref(Millisecond(100))
+Base.RefValue{Millisecond}(Millisecond(100))
+
+julia> candle_observable = make_timearrays_candles(MarketData.AAPL, interval)
+FunctionObservable(Candle)
+
+julia> interval[] = Millisecond(2000) # Change the emission rate while it's going.
+2000 milliseconds
+```
+"""
 function make_timearrays_candles(ta::TimeArray, interval::Base.RefValue) # TODO: define type for interval more precisely
     Rocket.make(Candle) do actor
         for row in ta
