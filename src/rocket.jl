@@ -38,10 +38,11 @@ end
 #
 # consumes: Candle
 # emits:    Tuple{Symbol, Symbol, Candle}
-#           Tuple{Symbol, Symbol, Float64}
+#           Tuple{Symbol, Symbol, String, DateTime, Float64}
 #
 # Symbol 1 = chart name
 # Symbol 2 = :update or :add
+# String 3 = field name for indicator (like :sma50)
 # The rest is new data for the client-side charts.
 @kwdef mutable struct ChartSubject <: Rocket.AbstractSubject{Any}
     charts::Dict{Symbol,Chart}
@@ -66,8 +67,9 @@ function Rocket.on_next!(subject::ChartSubject, c::Candle)
                 for field in setdiff(names(v.df), STANDARD_FIELDS)
                     # INFO: Currently sending one field at a time, but it could be batched.
                     value = v.df[end, field]
+                    ts = v.df[end, :ts]
                     if !ismissing(value)
-                        next!(s, (k, :add, value))
+                        next!(s, (k, :add, field, ts, value))
                     end
                 end
             end
@@ -90,7 +92,7 @@ end
 
 function to_lwc_candle(c::Candle)
     (
-        ts=nanodate2unixseconds(NanoDate(c.ts)),
+        time=nanodate2unixseconds(NanoDate(c.ts)),
         open=c.o,
         high=c.h,
         low=c.l,
@@ -109,5 +111,15 @@ function Rocket.on_next!(actor::WebSocketActor, c::Tuple{Symbol,Symbol,Candle})
     room_broadcast(:demo, JSON3.write(msg))
 end
 
-function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,Float64})
+function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,String,DateTime,Float64})
+    (chart, action, series, ts, value) = v
+    msg = (
+        type=action,
+        series=series,
+        data=(
+            time=nanodate2unixseconds(NanoDate(ts)),
+            value=value
+        )
+    )
+    room_broadcast(:demo, JSON3.write(msg))
 end
