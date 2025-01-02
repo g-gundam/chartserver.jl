@@ -27,7 +27,16 @@ julia> start()  # start the server in a background task
 julia> stop()   # stop the server
 ```
 
-## http://localhost:8080/
+## http://localhost:8080/demo
+
+- Hit **Start** to watch it go.
+- If you want to see it again, hit **Reset** and then **Start**.
+
+If it's too slow, change `CS.INTERVAL[]` in the REPL like this:
+
+```julia-repl
+julia> CS.INTERVAL[] = Millisecond(5) # small intervals are faster
+```
 
 ## Hacking
 
@@ -41,17 +50,19 @@ julia> CS.room_broadcast(:demo, """{ "type": "demo", "x": 5, "y": 9 }""")
 1-element Vector{Int64}:
  38
 
-# Revise doesn't notice template changes, so this is one workaround.
+# Revise doesn't notice template changes, so this is my workaround.
 julia> CS.render_demo = Mustache.load(joinpath(CS.ROOT, "tmpl", "demo.html"))
 ```
 
 # Log
 
-## [2025-01-01 Wed] - /demo
-- This first demo makes a lot of assumptions.
-- The server side chart is data from MarketData.AAPL, but its 1d candles are aggregated into 1w candles.
-- A 50 SMA and 200 SMA were also added.
-- The client-side chart hard-codes those assumptions.
+## [2025-01-02 Thu] - /demo
+- This demo exists to:
+  + help me become familiar with lightweight-charts [realtime update](https://tradingview.github.io/lightweight-charts/tutorials/demos/realtime-updates) capabilities.
+  + refresh my memory on how to use websockets both on the client and the server.
+- It hard codes an AAPL chart on the 1w timeframe with a 50 SMA and 200 SMA.
+  + The data is from `MarketData.AAPL`.
+  + The aggregation from 1d candles to 1w candles is done by [TechnicalIndicatorCharts.jl](https://github.com/g-gundam/TechnicalIndicatorCharts.jl).
 
 ## [2024-12-29 Sun] - The Initial Premise
 - I have a `Chart` struct from [TechnicalIndicatorCharts.jl](https://github.com/g-gundam/TechnicalIndicatorCharts.jl) that can be continually updated.
