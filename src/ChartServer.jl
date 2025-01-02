@@ -122,19 +122,19 @@ function reset()
     room_broadcast(:demo, """{ "type": "reset" }""")
 end
 
-ChartServer.demo_task = missing
+demo_task = missing
 
 function start()
-    ChartServer.demo_task = @task subscribe!(candle_observable, chart_subject)
+    global demo_task = @task subscribe!(candle_observable, chart_subject)
     schedule(ChartServer.demo_task)
 end
 
 function stop()
-    if ismissing(ChartServer.demo_task)
+    if ismissing(demo_task)
         @warn :missing messgage="demo_task hasn't been set yet"
         return
     end
-    schedule(ChartServer.demo_task, InterruptException(); error=true)
+    schedule(demo_task, InterruptException(); error=true)
 end
 
 # static files (but using dynamic during development)

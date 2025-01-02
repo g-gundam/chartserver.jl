@@ -134,7 +134,7 @@ clear js console
 #=
 RECORD:
 hit record on peek.
-in emacs, include("../chartserver.jl")
+in emacs, include("chartserver.jl")
 move the mouse while it's compiling.
 in emacs, start()
 in browser, reload tab
