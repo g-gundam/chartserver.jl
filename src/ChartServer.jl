@@ -42,6 +42,31 @@ end
 include("rocket.jl")
 
 """
+This is a Ref that you can manipulate to change the rate at which `candle_observable` emits candles.
+
+# Example
+
+```julia-repl
+julia> CS.INTERVAL
+Base.RefValue{Millisecond}(Millisecond(100))
+
+julia> CS.INTERVAL[] = Millisecond(2000) # slow it down to 1 candle every 2 seconds
+2000 milliseconds
+
+julia> CS.INTERVAL
+Base.RefValue{Millisecond}(Millisecond(2000))
+```
+"""
+INTERVAL = Ref(Millisecond(100))
+
+"""
+This observable takes data from `MarketData.AAPL`
+and emits each row as a `TechnicalIndicatorCharts.Candle`
+at a rate of one candle per `CS.INTERVAL`.
+"""
+candle_observable = make_timearrays_candles(AAPL, INTERVAL)
+
+"""
 `aapl_chart` is a `TechnicalIndicatorCharts.Chart` of the
 `MarketData.AAPL` data aggregated into 1 week candles.  A weekly 50
 SMA and 200 SMA are also calculated for this chart.
@@ -73,29 +98,16 @@ It emits change notifications as tuples when a value has been updated or added t
 chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
 
 """
-This is a Ref that you can manipulate to change the rate at which `candle_observable` emits candles.
-
-# Example
-
-```julia-repl
-julia> CS.INTERVAL
-Base.RefValue{Millisecond}(Millisecond(100))
-
-julia> CS.INTERVAL[] = Millisecond(2000) # slow it down to 1 candle every 2 seconds
-2000 milliseconds
-
-julia> CS.INTERVAL
-Base.RefValue{Millisecond}(Millisecond(2000))
-```
+`websocket_actor` consumes notifications from chart_subject in the form of tuples and sends updates
+to client-side charts via websockets.
 """
-INTERVAL = Ref(Millisecond(100))
+websocket_actor = WebSocketActor()
 
-"""
-This observable takes data from `MarketData.AAPL`
-and emits each row as a `TechnicalIndicatorCharts.Candle`
-at a rate of one candle per `CS.INTERVAL`.
-"""
-candle_observable = make_timearrays_candles(AAPL, INTERVAL)
+# Hook up the rocket parts.
+subscribe!(chart_subject, websocket_actor)
+# t = @task subscribe!(candle_observable, chart_subject); schedule(t)
+
+# stop(t)
 
 # static files (but using dynamic during development)
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
