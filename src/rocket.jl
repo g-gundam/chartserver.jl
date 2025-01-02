@@ -123,3 +123,24 @@ function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,String,Da
     )
     room_broadcast(:demo, JSON3.write(msg))
 end
+
+#=
+PREP:
+restart julia repl.
+switch emacs to "*julia chartserver*" buffer
+clear js console
+=#
+
+#=
+RECORD:
+hit record on peek.
+in emacs, include("../chartserver.jl")
+move the mouse while it's compiling.
+in emacs, start()
+in browser, reload tab
+in emacs, t = @task subscribe!(CS.candle_observer, CS.chart_subject); schedule(t)
+in emacs, CS.INTERVAL[] = Millisecond(5)
+in emacs, CS.INTERVAL[] = Millisecond(1)
+stop recording when candles are finished
+
+=#
