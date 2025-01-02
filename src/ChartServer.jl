@@ -122,6 +122,21 @@ function reset()
     room_broadcast(:demo, """{ "type": "reset" }""")
 end
 
+ChartServer.demo_task = missing
+
+function start()
+    ChartServer.demo_task = @task subscribe!(candle_observable, chart_subject)
+    schedule(ChartServer.demo_task)
+end
+
+function stop()
+    if ismissing(ChartServer.demo_task)
+        @warn :missing messgage="demo_task hasn't been set yet"
+        return
+    end
+    schedule(ChartServer.demo_task, InterruptException(); error=true)
+end
+
 # static files (but using dynamic during development)
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
 dynamicfiles(joinpath(ROOT, "www", "css"), "css")
@@ -148,11 +163,17 @@ end
             elseif msg.type == "reset"
                 @warn :reset
                 reset()
+            elseif msg.type == "start"
+                @warn :start
+                start()
+            elseif msg.type == "stop"
+                @warn :stop
+                stop()
             else
-                WebSockets.send(ws, "unknown msg.type :: $(JSON3.write(msg))")
+                WebSockets.send(ws, JSON3.write((;type="unknown", msg=msg)))
             end
         catch err
-            @info :nonjson msg
+            @info :nonjson data err
             WebSockets.send(ws, "[echo] $(data)")
         end
     end

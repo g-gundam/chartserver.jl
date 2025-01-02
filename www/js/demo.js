@@ -80,5 +80,19 @@ document.addEventListener('DOMContentLoaded', () => {
     series.sma50.setData([])
     series.sma200.setData([])
   }
+
+  const resetInput = document.getElementById('reset')
+  resetInput.addEventListener('click', (ev) => {
+    ws.send(JSON.stringify({ type: "reset" }))
+  })
+  const startInput = document.getElementById('start')
+  startInput.addEventListener('click', (ev) => {
+    ws.send(JSON.stringify({ type: "start" }))
+  })
+  const stopInput = document.getElementById('stop')
+  stopInput.addEventListener('click', (ev) => {
+    ws.send(JSON.stringify({ type: "stop" }))
+  })
   console.log("What's next?")
 })
+
