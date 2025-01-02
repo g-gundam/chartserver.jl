@@ -58,11 +58,13 @@ julia> CS.render_demo = Mustache.load(joinpath(CS.ROOT, "tmpl", "demo.html"))
 
 ## [2025-01-02 Thu] - /demo
 - This demo exists to:
-  + help me become familiar with lightweight-charts [realtime update](https://tradingview.github.io/lightweight-charts/tutorials/demos/realtime-updates) capabilities.
-  + refresh my memory on how to use websockets both on the client and the server.
-- It hard codes an AAPL chart on the 1w timeframe with a 50 SMA and 200 SMA.
+  + help me become familiar with lightweight-charts [realtime update](https://tradingview.github.io/lightweight-charts/tutorials/demos/realtime-updates) capabilities;
+  + refresh my memory on how to use websockets both on the client and the server;
+  + get a dialogue going with LightweightCharts.jl developers about [realtime chart updates](https://github.com/bhftbootcamp/LightweightCharts.jl/issues/32).
+- It hard codes an AAPL chart on the 1w timeframe with a 50 SMA and 200 SMA on both the server and client sides.
   + The data is from `MarketData.AAPL`.
   + The aggregation from 1d candles to 1w candles is done by [TechnicalIndicatorCharts.jl](https://github.com/g-gundam/TechnicalIndicatorCharts.jl).
+  + [Rocket.jl](https://github.com/ReactiveBayes/Rocket.jl) is being used to manage some async tasks.
 
 ## [2024-12-29 Sun] - The Initial Premise
 - I have a `Chart` struct from [TechnicalIndicatorCharts.jl](https://github.com/g-gundam/TechnicalIndicatorCharts.jl) that can be continually updated.
