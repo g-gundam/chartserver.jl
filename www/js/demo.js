@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ohlc,
     sma50,
     sma200
-  }
+  } // I put them in an object so I could look them up by name.
 
   // WebSockets
   const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
@@ -59,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
         data = msg.data
         s.update(data)
         break
+      case "reset":
+        console.warn("reset")
+        window.reset() // client-side data clearing
+        break
       default:
         console.log("default", msg)
         break
@@ -70,5 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.ws = ws
+  window.series = series
+  window.reset = () => {
+    series.ohlc.setData([])
+    series.sma50.setData([])
+    series.sma200.setData([])
+  }
   console.log("What's next?")
 })

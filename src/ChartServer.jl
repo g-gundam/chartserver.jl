@@ -66,30 +66,34 @@ at a rate of one candle per `CS.INTERVAL`.
 """
 candle_observable = make_timearrays_candles(AAPL, INTERVAL)
 
+function make_aapl_chart()
+    Chart(
+        "AAPL", Week(1),
+        indicators = [
+            SMA{Float64}(period=50),          # Setup indicators
+            SMA{Float64}(period=200),
+        ],
+        visuals = [
+            Dict(
+                :label_name => "SMA 50",      # Describe how to draw indicators
+                :line_color => "#E072A4",
+                :line_width => 2
+            ),
+            Dict(
+                :label_name => "SMA 200",
+                :line_color => "#3D3B8E",
+                :line_width => 5
+            )
+        ]
+    )
+end
+
 """
 `aapl_chart` is a `TechnicalIndicatorCharts.Chart` of the
 `MarketData.AAPL` data aggregated into 1 week candles.  A weekly 50
 SMA and 200 SMA are also calculated for this chart.
 """
-aapl_chart = Chart(
-    "AAPL", Week(1),
-    indicators = [
-        SMA{Float64}(period=50),          # Setup indicators
-        SMA{Float64}(period=200),
-    ],
-    visuals = [
-        Dict(
-            :label_name => "SMA 50",      # Describe how to draw indicators
-            :line_color => "#E072A4",
-            :line_width => 2
-        ),
-        Dict(
-            :label_name => "SMA 200",
-            :line_color => "#3D3B8E",
-            :line_width => 5
-        )
-    ]
-)
+aapl_chart = make_aapl_chart()
 
 """
 `chart_subject` consumes `Candle`s for 1 market and feeds them to the `Chart`s it has been asked to manage.
@@ -106,8 +110,17 @@ websocket_actor = WebSocketActor()
 # Hook up the rocket parts.
 subscribe!(chart_subject, websocket_actor)
 # t = @task subscribe!(candle_observable, chart_subject); schedule(t)
-
 # stop(t)
+
+"""
+Reset the contents of `aapl_chart` and tell every connected client in the demo room
+to reset their client-side charts.
+"""
+function reset()
+    aapl_chart = make_aapl_chart()
+    chart_subject.charts[:aapl1w] = aapl_chart
+    room_broadcast(:demo, """{ "type": "reset" }""")
+end
 
 # static files (but using dynamic during development)
 # https://oxygenframework.github.io/Oxygen.jl/stable/#Mounting-Dynamic-Files
@@ -122,23 +135,24 @@ end
 
 @websocket "/demo-ws" function(ws::HTTP.WebSocket)
     @info :connect id=ws.id
-    # make them a member of the :demo room on connect
+    # Make new connections a member of the :demo room.
+    # This also gives code outside of this `for data in ws` loop access to websocket connections.
     room_join(:demo, ws)
-    # echo server for now
-    # but what do we want this long-lived connection to do?
+
     for data in ws
         try
             msg = JSON3.read(data)
-            if msg.type == "subscribe"
-                @info :subscribe id=ws.id message="still figuring this part out"
-            elseif msg.type == "id"
+            if msg.type == "id"
                 @info :id id=ws.id
                 WebSockets.send(ws, JSON3.write(Dict(:id => ws.id)))
+            elseif msg.type == "reset"
+                @warn :reset
+                reset()
             else
                 WebSockets.send(ws, "unknown msg.type :: $(JSON3.write(msg))")
             end
         catch err
-            @error :exception err
+            @info :nonjson msg
             WebSockets.send(ws, "[echo] $(data)")
         end
     end
