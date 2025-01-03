@@ -188,6 +188,7 @@ end
 
 # return the latest candles as JSON
 @get "/demo/latest" function(req::HTTP.Request)
+    json(aapl_chart.df)
 end
 
 end
