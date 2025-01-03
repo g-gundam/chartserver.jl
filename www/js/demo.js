@@ -41,9 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('disconnected')
   }
   ws.onmessage = (ev) => {
-    let msg = event.data
+    let msg = ev.data
     try {
-      msg = JSON.parse(event.data)
+      msg = JSON.parse(ev.data)
       switch (msg.type) {
       case "update":
         console.log("update", msg)
