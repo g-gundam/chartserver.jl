@@ -29,6 +29,8 @@ julia> stop()   # stop the server
 
 ## http://localhost:8080/demo
 
+[Demo Video](https://files.catbox.moe/xhcupx.webm)
+
 - Hit **Start** to watch it go.
 - If you want to see it again, hit **Reset** and then **Start**.
 
