@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     upColor: '#26a69a', downColor: '#ef5350', borderVisible: false,
     wickUpColor: '#26a69a', wickDownColor: '#ef5350',
   });
-  const sma50 = chart.addLineSeries({ color: "#E072A4", width: 2 })
-  const sma200 = chart.addLineSeries({ color: "#3D3B8E", width: 5 })
+  const sma50 = chart.addLineSeries({ color: "#E072A4", lineWidth: 2 })
+  const sma200 = chart.addLineSeries({ color: "#3D3B8E", lineWidth: 5 })
   const series = {
     ohlc,
     sma50,
