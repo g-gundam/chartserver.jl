@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     autoSize: true,
     width:  640, // fallback if autoSize fails
-    height: 640
+    height: 620
   };
   const chart = LightweightCharts.createChart(container, chartOptions)
   chart.timeScale().fitContent()
