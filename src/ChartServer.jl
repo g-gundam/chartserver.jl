@@ -125,6 +125,12 @@ end
 demo_task = missing
 
 function start()
+    if !ismissing(demo_task)
+        if istaskstarted(demo_task) && !istaskdone(demo_task)
+            @warn :demo_task message="demo_task is already running."
+            return
+        end
+    end
     global demo_task = @task subscribe!(candle_observable, chart_subject)
     schedule(ChartServer.demo_task)
 end
