@@ -4,6 +4,7 @@ import ChartServer as CS
 
 # for REPL use
 using Dates
+using DataFrames
 using OnlineTechnicalIndicators
 using TechnicalIndicatorCharts
 using Mustache

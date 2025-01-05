@@ -8,6 +8,7 @@ using JSON3
 using Rocket
 using UUIDs
 using Dates
+using DataFrames
 
 using CryptoMarketData
 using OnlineTechnicalIndicators
@@ -193,9 +194,42 @@ render_demo = Mustache.load(joinpath(ROOT, "tmpl", "demo.html"))
     render_demo()
 end
 
+"""    lwc_series(df::DataFrame) :: Dict{Symbol,Vector}
+
+Turn the contents of a DataFrame into a Dict of series that can hydrate a client-side lightweightchart.
+"""
+function lwc_series(df::DataFrame)
+    s = Dict{Symbol,Vector}(:ohlc => [])
+    others = Symbol.(setdiff(names(df), STANDARD_FIELDS))
+    for k in others
+        s[k] = []
+    end
+    for row in eachrow(df)
+        ohlcv = (
+            time = nanodate2unixseconds(NanoDate(row.ts)),
+            open = row.o,
+            high = row.h,
+            low = row.l,
+            close = row.c,
+            volume = row.v
+        )
+        push!(s[:ohlc], ohlcv)
+        for k in others
+            if !ismissing(row[k])
+                v = (
+                    time = nanodate2unixseconds(NanoDate(row.ts)),
+                    value = row[k]
+                )
+                push!(s[k], v)
+            end
+        end
+    end
+    s
+end
+
 # return the latest candles as JSON
 @get "/demo/latest" function(req::HTTP.Request)
-    json(aapl_chart.df)
+    json(lwc_series(aapl_chart.df))
 end
 
 end
