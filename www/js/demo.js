@@ -1,4 +1,15 @@
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Hydrate a lightweight chart by loading JSON data from the given URL.
+ */
+async function loadSeries(series, url) {
+  let res = await fetch(url)
+  let json = await res.json()
+  for (k in json) {
+    series[k].setData(json[k])
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('container')
   const chartOptions = {
     layout: {
@@ -28,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sma50,
     sma200
   } // I put them in an object so I could look them up by name.
+  await loadSeries(series, "/demo/latest")
 
   // WebSockets
   const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
