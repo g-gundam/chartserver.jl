@@ -150,8 +150,9 @@ dynamicfiles(joinpath(ROOT, "www", "js"), "js")
 staticfiles(joinpath(ROOT, "www", "images"), "images")
 
 # routes
+render_home = Mustache.load(joinpath(ROOT, "tmpl", "home.html"))
 @get "/" function(req::HTTP.Request)
-    html("""<a href="/demo">demo</a>""")
+    render_home()
 end
 
 @websocket "/demo-ws" function(ws::HTTP.WebSocket)
