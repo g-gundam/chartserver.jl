@@ -118,7 +118,7 @@ Reset the contents of `aapl_chart` and tell every connected client in the demo r
 to reset their client-side charts.
 """
 function reset()
-    aapl_chart = make_aapl_chart()
+    global aapl_chart = make_aapl_chart()
     chart_subject.charts[:aapl1w] = aapl_chart
     room_broadcast(:demo, """{ "type": "reset" }""")
 end
