@@ -33,6 +33,19 @@ function make_timearrays_candles(ta::TimeArray, interval::Base.RefValue) # TODO:
     end
 end
 
+"""    bitstamp_candles()
+
+Return an observable that emits candles from Bitstamp's WebSocket API.
+"""
+function bitstamp_candles()
+    # Should I return more than one thing?
+    # Maybe the websocket connection would be good to have.
+    # I think I need to play with Visor.jl before I go any further.
+    # Let's bake reliability into this from the beginning.
+end
+
+
+
 # The purpose of a ChartSubject is to feed candles to the Chart structs it has been asked to manage.
 # These candles should all come from one market.
 #

@@ -232,4 +232,9 @@ end
     json(lwc_series(aapl_chart.df))
 end
 
+render_demo2 = Mustache.load(joinpath(ROOT, "tmpl", "demo2.html"))
+@get "/demo2" function(req::HTTP.Request)
+    render_demo2()
+end
+
 end
