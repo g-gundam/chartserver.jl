@@ -232,9 +232,25 @@ end
     json(lwc_series(aapl_chart.df))
 end
 
+include("demo2.jl")
+
 render_demo2 = Mustache.load(joinpath(ROOT, "tmpl", "demo2.html"))
 @get "/demo2" function(req::HTTP.Request)
     render_demo2()
+end
+
+@get "/demo2/charts" function(req::HTTP.Request)
+    charts = [
+        # XXX: Not enough!  Charts need names.
+        [
+            # ohlc
+            # ema15
+        ],
+        [
+            # ohlc
+            # hma15
+        ]
+    ]
 end
 
 end
