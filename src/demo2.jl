@@ -36,3 +36,16 @@ bitstamp_ws_session = nothing # CMD.subscribe(bitstamp_ws_uri)
 function bitstamp_ws_open()
     global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
 end
+
+#=
+data = []
+
+btcusd_subscribe = Dict(:event => "bts:subscribe", :data => Dict(:channel => "live_trades_btcusd"))
+put!(s.commands, JSON3.write(btcusd_subscribe))
+
+t = @spawn while true
+    msg = take!(s.messages)
+    m = JSON3.read(msg)
+    push!(CS.data, m)
+end
+=#
