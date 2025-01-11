@@ -629,9 +629,9 @@ version = "1.12.0"
 
 [[deps.TechnicalIndicatorCharts]]
 deps = ["Chain", "DataFrames", "DataFramesMeta", "DataStructures", "Dates", "DocStringExtensions", "LightweightCharts", "NanoDates", "OnlineTechnicalIndicators", "TidyTest"]
-git-tree-sha1 = "8187ec8b9db6fe83666021046a5c3c3c0e07670f"
+git-tree-sha1 = "6645cca27daa7b64a410468aa76df9e8706e6142"
 uuid = "ffc6123f-ba44-4b2f-a8ce-46f3306b22af"
-version = "0.6.2"
+version = "0.6.3"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
