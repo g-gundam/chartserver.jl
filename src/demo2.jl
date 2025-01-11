@@ -1,3 +1,10 @@
+using HTTP
+using HTTP: WebSocket, WebSockets
+using URIs
+using Visor
+using Base.Threads # @spawn
+using CryptoMarketData
+
 bitstamp_chart_btcusd1m = Chart(
     "BTCUSD", Minute(1),
     indicators=[EMA{Float64}(period=9), EMA{Float64}(period=12)],
@@ -22,3 +29,10 @@ demo2_chart_subject = ChartSubject(charts=Dict(
     :btcusd1m => bitstamp_chart_btcusd1m,
     :btcusd3m => bitstamp_chart_btcusd3m
 ))
+
+bitstamp_ws_uri = URI("wss://ws.bitstamp.net")
+bitstamp_ws_session = nothing # CMD.subscribe(bitstamp_ws_uri)
+
+function bitstamp_ws_open()
+    global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_url)
+end
