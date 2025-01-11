@@ -34,5 +34,5 @@ bitstamp_ws_uri = URI("wss://ws.bitstamp.net")
 bitstamp_ws_session = nothing # CMD.subscribe(bitstamp_ws_uri)
 
 function bitstamp_ws_open()
-    global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_url)
+    global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
 end
