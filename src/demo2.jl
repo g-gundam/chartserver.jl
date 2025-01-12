@@ -38,7 +38,11 @@ function bitstamp_ws_open()
 end
 
 #=
-data = []
+using CryptoMarketData
+using Base.Threads
+
+CS.bitstamp_ws_session = CryptoMarketData.subscribe(CS.bitstamp_ws_uri)
+s = CS.bitstamp_ws_session
 
 btcusd_subscribe = Dict(:event => "bts:subscribe", :data => Dict(:channel => "live_trades_btcusd"))
 put!(s.commands, JSON3.write(btcusd_subscribe))
@@ -46,6 +50,9 @@ put!(s.commands, JSON3.write(btcusd_subscribe))
 t = @spawn while true
     msg = take!(s.messages)
     m = JSON3.read(msg)
-    push!(CS.data, m)
+    ts = unix2datetime(parse(Int64, m[:data][:timestamp]))
+    price = convert(Float64, m[:data][:price])
+    Rocket.on_next!(CS.demo2_chart_subject, (ts, price))
 end
+
 =#
