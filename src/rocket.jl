@@ -69,32 +69,47 @@ end
 
 const STANDARD_FIELDS = Set(["ts", "o", "h", "l", "c", "v"])
 
+function handle_complete_candle(complete_candle, subject, c, k, v)
+    if !isnothing(complete_candle)
+        # This is the :add block.
+        for s in subject.subscribers
+            next!(s, (k, :add, complete_candle))
+            # Also send everything that is not OHLCV.
+            for field in setdiff(names(v.df), STANDARD_FIELDS)
+                # INFO: Currently sending one field at a time, but it could be batched.
+                value = v.df[end, field]
+                ts = v.df[end, :ts]
+                if !ismissing(value)
+                    next!(s, (k, :add, field, ts, value))
+                end
+            end
+        end
+    else
+        # This is the :update block.
+        # Only candles can do updates in this system.
+        # Indicators only change on candle close.
+        for s in subject.subscribers
+            current_candle = subject.charts[k].candle
+            next!(s, (k, :update, current_candle))
+        end
+    end
+end
+
+# This is for exchanges that only give me a timestamp and a price over websockets.
+function Rocket.on_next!(subject::ChartSubject, t::Tuple{DateTime, Float64})
+    (ts,  price) = t
+    for (k, v) in subject.charts
+        complete_candle = TechnicalIndicatorCharts.update!(v, ts, price)
+        handle_complete_candle(complete_candle, subject, c, k, v)
+        yield()
+    end
+end
+
+# This is for exchanges that give me an unfinished 1m candle over websockets
 function Rocket.on_next!(subject::ChartSubject, c::Candle)
     for (k, v) in subject.charts
         complete_candle = TechnicalIndicatorCharts.update!(v, c)
-        if !isnothing(complete_candle)
-            # This is the :add block.
-            for s in subject.subscribers
-                next!(s, (k, :add, complete_candle))
-                # Also send everything that is not OHLCV.
-                for field in setdiff(names(v.df), STANDARD_FIELDS)
-                    # INFO: Currently sending one field at a time, but it could be batched.
-                    value = v.df[end, field]
-                    ts = v.df[end, :ts]
-                    if !ismissing(value)
-                        next!(s, (k, :add, field, ts, value))
-                    end
-                end
-            end
-        else
-            # This is the :update block.
-            # Only candles can do updates in this system.
-            # Indicators only change on candle close.
-            for s in subject.subscribers
-                current_candle = subject.charts[k].candle
-                next!(s, (k, :update, current_candle))
-            end
-        end
+        handle_complete_candle(complete_candle, subject, c, k, v)
         yield()
     end
 end
