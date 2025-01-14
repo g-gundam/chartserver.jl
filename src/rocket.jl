@@ -114,6 +114,7 @@ function Rocket.on_next!(subject::ChartSubject, c::Candle)
     end
 end
 
+# TODO: Make the room to broadcast to a struct member
 @kwdef mutable struct WebSocketActor <: NextActor{Any}
     websockets::Vector = []
 end
