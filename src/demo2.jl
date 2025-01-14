@@ -4,6 +4,8 @@ using URIs
 using Visor
 using Base.Threads # @spawn
 using CryptoMarketData
+using TechnicalIndicatorCharts
+using TechnicalIndicatorCharts: Chart
 
 bitstamp_chart_btcusd1m = Chart(
     "BTCUSD", Minute(1),
@@ -35,6 +37,69 @@ bitstamp_ws_session = nothing # CMD.subscribe(bitstamp_ws_uri)
 
 function bitstamp_ws_open()
     global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
+end
+
+# XXX: Translate from LWC.jl to lwc.js key names
+function translate(opts)
+    d = Dict()
+    translation = Dict(
+        :line_color => :color,
+        :line_width => :width
+    )
+    for (k, v) in opts
+        if haskey(translation, k)
+            push!(d, translation[k] => v)
+        else
+            push!(d, k => v)
+        end
+    end
+    return d
+end
+
+# INFO: This will be moved into TechnicalIndicatorCharts once I feel good about the function signature.
+function config(ema::EMA, opts)
+    name = TechnicalIndicatorCharts.indicator_fields(ema)[1]
+    defaults = Dict(
+        :_type => "line",
+        :color => "#000"
+    )
+    final = merge(defaults, translate(opts))
+    return name => final
+end
+
+# INFO: This will be moved into TechnicalIndicatorCharts once I feel good about the function signature.
+function config(chart::Chart)
+    series = [
+        :ohlc => Dict(
+            :_type => "ohlc",
+            :upColor => "#26a69a",
+            :downColor => "#ef5350",
+            :wickUpColor => "#26a69a",
+            :wickDownColor => "#ef5350",
+            :borderVisible => false
+        )
+    ]
+    for (i, indicator) in enumerate(chart.indicators)
+        @info i
+        visual = chart.visuals[i]
+        push!(series, config(indicator, visual))
+    end
+    return Dict(
+        :layout => Dict(
+            :textColor => "black",
+            :background => Dict(
+                :type => "solid",
+                :color => "white",
+            )
+        ),
+        :rightPriceScale => Dict(
+            :mode => 1
+        ),
+        :autoSize => true,
+        :width => 640,
+        :height => 620,
+        :series => Dict(series)
+    )
 end
 
 #=
