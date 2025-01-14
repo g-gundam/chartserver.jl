@@ -2,7 +2,7 @@
 
 julia_version = "1.11.2"
 manifest_format = "2.0"
-project_hash = "1612fcb89f4f46c06f7c02c7294d8c24100dfadc"
+project_hash = "100285234b9d853aa29adee2b2d39f1c1c963d84"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -574,6 +574,11 @@ deps = ["AliasTables", "DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunc
 git-tree-sha1 = "29321314c920c26684834965ec2ce0dacc9cf8e5"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.34.4"
+
+[[deps.StringCases]]
+git-tree-sha1 = "9d2c2ff94838df91866a16832cb0de4449abd54c"
+uuid = "f22f4433-750e-5048-95f9-cae576f2c120"
+version = "0.1.0"
 
 [[deps.StringEncodings]]
 deps = ["Libiconv_jll"]
