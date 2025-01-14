@@ -97,7 +97,7 @@ function config(chart::Chart)
         ),
         :autoSize => true,
         :width => 640,
-        :height => 620,
+        :height => 220,
         :_series => Dict(series)
     )
 end
