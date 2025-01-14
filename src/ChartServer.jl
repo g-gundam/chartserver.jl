@@ -240,17 +240,7 @@ render_demo2 = Mustache.load(joinpath(ROOT, "tmpl", "demo2.html"))
 end
 
 @get "/demo2/charts" function(req::HTTP.Request)
-    charts = [
-        # XXX: Not enough!  Charts need names.
-        [
-            # ohlc
-            # ema15
-        ],
-        [
-            # ohlc
-            # hma15
-        ]
-    ]
+    config.(values(demo2_chart_subject.charts))
 end
 
 end
