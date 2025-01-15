@@ -245,8 +245,6 @@ end
 
 @websocket "/demo2/ws" function(ws::HTTP.WebSocket)
     @info :connect id=ws.id
-    # Make new connections a member of the :demo room.
-    # This also gives code outside of this `for data in ws` loop access to websocket connections.
     room_join(:demo2, ws)
 
     for data in ws
@@ -263,8 +261,6 @@ end
             WebSockets.send(ws, "[echo] $(data)")
         end
     end
-    # When the connection closes, the @repeat task up top will clean them out of ROOMS eventually.
-    # Doing it immediately caused errors that I didn't understand.
 end
 
 end
