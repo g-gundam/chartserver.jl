@@ -116,7 +116,7 @@ end
 
 # TODO: Make the room to broadcast to a struct member
 @kwdef mutable struct WebSocketActor <: NextActor{Any}
-    websockets::Vector = []
+    room::Symbol = :demo
 end
 
 function to_lwc_candle(c::Candle)
@@ -137,7 +137,7 @@ function Rocket.on_next!(actor::WebSocketActor, c::Tuple{Symbol,Symbol,Candle})
         series="ohlc",
         data=to_lwc_candle(candle)
     )
-    room_broadcast(:demo, JSON3.write(msg))
+    room_broadcast(actor.room, JSON3.write(msg))
 end
 
 function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,String,DateTime,Float64})
@@ -150,7 +150,7 @@ function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,String,Da
             value=value
         )
     )
-    room_broadcast(:demo, JSON3.write(msg))
+    room_broadcast(actor.room, JSON3.write(msg))
 end
 
 #=
