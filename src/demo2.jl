@@ -35,6 +35,8 @@ demo2_chart_subject = ChartSubject(charts=Dict(
 bitstamp_ws_uri = URI("wss://ws.bitstamp.net")
 bitstamp_ws_session = nothing # CMD.subscribe(bitstamp_ws_uri)
 
+demo2_websocket_actor = WebSocketActor(room=:demo2)
+
 function bitstamp_ws_open()
     global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
 end

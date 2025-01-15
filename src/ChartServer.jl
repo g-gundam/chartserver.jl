@@ -243,4 +243,28 @@ end
     config.(values(demo2_chart_subject.charts))
 end
 
+@websocket "/demo2/ws" function(ws::HTTP.WebSocket)
+    @info :connect id=ws.id
+    # Make new connections a member of the :demo room.
+    # This also gives code outside of this `for data in ws` loop access to websocket connections.
+    room_join(:demo2, ws)
+
+    for data in ws
+        try
+            msg = JSON3.read(data)
+            if msg.type == "id"
+                @info :id id=ws.id
+                WebSockets.send(ws, JSON3.write(Dict(:id => ws.id)))
+            else
+                WebSockets.send(ws, JSON3.write((;type="unknown", msg=msg)))
+            end
+        catch err
+            @info :nonjson data err
+            WebSockets.send(ws, "[echo] $(data)")
+        end
+    end
+    # When the connection closes, the @repeat task up top will clean them out of ROOMS eventually.
+    # Doing it immediately caused errors that I didn't understand.
+end
+
 end
