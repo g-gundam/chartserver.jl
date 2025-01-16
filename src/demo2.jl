@@ -37,6 +37,8 @@ bitstamp_ws_session = nothing # CMD.subscribe(bitstamp_ws_uri)
 
 demo2_websocket_actor = WebSocketActor(room=:demo2)
 
+subscribe!(demo2_chart_subject, demo2_websocket_actor)
+
 function bitstamp_ws_open()
     global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
 end
