@@ -128,6 +128,12 @@ function config(chart::Chart)
         :rightPriceScale => Dict(
             :mode => 1
         ),
+        :timeScale => Dict(
+            :timeVisible => true,
+        ),
+        :localization => Dict(
+            :dateFormat => "yyyy-MM-dd",
+        ),
         :autoSize => true,
         :width => 640,
         :height => 220,
