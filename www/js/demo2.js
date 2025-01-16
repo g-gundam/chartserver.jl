@@ -57,6 +57,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       msg = JSON.parse(ev.data)
       switch (msg.type) {
+      case "update":
+        console.log("update", msg)
+        s = charts[msg.chart].series[msg.series]
+        data = msg.data
+        s.update(data)
+        break
+      case "add":
+        // The server-side makes an add vs update distinction,
+        // but I guess the client doesn't have to.
+        console.log("add", msg) 
+        s = charts[msg.chart].series[msg.series]
+        data = msg.data
+        s.update(data)
+        break
       default:
         console.log("default", msg)
         break
