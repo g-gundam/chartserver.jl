@@ -38,6 +38,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   const workspace = document.getElementById("workspace")
   charts.forEach((c) => workspace.append(c.el))
 
+  // WebSockets
+  const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
+  const wsUrl = `${wsProtocol}://${location.host}/demo2/ws`
+  console.info(wsUrl)
+  const ws = new WebSocket(wsUrl)
+  ws.onopen = (ev) => {
+    console.log('connected')
+  }
+  ws.onclose = (ev) => {
+    console.log('disconnected')
+  }
+  ws.onmessage = (ev) => {
+    let msg = ev.data
+    try {
+      msg = JSON.parse(ev.data)
+      switch (msg.type) {
+      default:
+        console.log("default", msg)
+        break
+      }
+    }
+    catch (err) {
+      console.log("non-json", msg)
+    }
+  }
+
+  window.ws = ws
   window.chartConfigs = chartConfigs
   window.charts = charts
 })
