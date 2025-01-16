@@ -134,6 +134,7 @@ function Rocket.on_next!(actor::WebSocketActor, c::Tuple{Symbol,Symbol,Candle})
     (chart, action, candle) = c
     msg = (
         type=action,
+        chart=chart,
         series="ohlc",
         data=to_lwc_candle(candle)
     )
@@ -144,6 +145,7 @@ function Rocket.on_next!(actor::WebSocketActor, v::Tuple{Symbol,Symbol,String,Da
     (chart, action, series, ts, value) = v
     msg = (
         type=action,
+        chart=chart,
         series=series,
         data=(
             time=nanodate2unixseconds(NanoDate(ts)),
