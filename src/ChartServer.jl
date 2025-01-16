@@ -106,7 +106,7 @@ chart_subject = ChartSubject(charts = Dict(:aapl1w => aapl_chart))
 `websocket_actor` consumes notifications from chart_subject in the form of tuples and sends updates
 to client-side charts via websockets.
 """
-websocket_actor = WebSocketActor()
+websocket_actor = WebSocketActor(room=:demo)
 
 # Hook up the rocket parts.
 subscribe!(chart_subject, websocket_actor)
