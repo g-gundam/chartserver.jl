@@ -39,8 +39,37 @@ demo2_websocket_actor = WebSocketActor(room=:demo2)
 
 subscribe!(demo2_chart_subject, demo2_websocket_actor)
 
+demo2_task = nothing
+
 function bitstamp_ws_open()
     global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
+end
+
+function bitstamp_ws_subscribe()
+    s = bitstamp_ws_session
+    btcusd_subscribe = Dict(:event => "bts:subscribe", :data => Dict(:channel => "live_trades_btcusd"))
+    put!(s.commands, JSON3.write(btcusd_subscribe))
+    return JSON3.read(take!(s.messages)) # INFO: the first message back is a subscription confirmation and not price data.
+end
+
+function demo2_start()
+    bitstamp_ws_open()
+    # XXX: I can't sent the subscribe until the connection exists.  I wish I could, though.
+    #      Why can't it just sit in the channel?
+    sleep(1) # XXX: I can't sent the subscribe until the connection exists.  I wish I could, though.
+    @info :subscribe bitstamp_ws_subscribe()
+    s = bitstamp_ws_session
+    global demo2_task = @spawn while true
+        msg = take!(s.messages)
+        m = JSON3.read(msg)
+        ts = unix2datetime(parse(Int64, m[:data][:timestamp]))
+        price = convert(Float64, m[:data][:price])
+        Rocket.on_next!(demo2_chart_subject, (ts, price))
+    end
+end
+
+# TODO: implement some kind of shutdown for websockets
+function demo2_stop()
 end
 
 # XXX: Translate from LWC.jl to lwc.js key names
