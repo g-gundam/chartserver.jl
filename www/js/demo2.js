@@ -32,11 +32,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const res = await fetch("/demo2/charts")
   const chartConfigs = await res.json()
 
-  const charts = chartConfigs.map(createChart)
+  const charts = Object.keys(chartConfigs).reduce((result, name) => {
+    result[name] = createChart(chartConfigs[name])
+    return result
+  }, {})
 
   // append to #workspace
   const workspace = document.getElementById("workspace")
-  charts.forEach((c) => workspace.append(c.el))
+  Object.keys(charts).forEach((name) => workspace.append(charts[name].el))
 
   // WebSockets
   const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'

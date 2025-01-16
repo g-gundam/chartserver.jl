@@ -240,7 +240,8 @@ render_demo2 = Mustache.load(joinpath(ROOT, "tmpl", "demo2.html"))
 end
 
 @get "/demo2/charts" function(req::HTTP.Request)
-    config.(values(demo2_chart_subject.charts))
+    Dict(k => config(chart)
+         for (k, chart) in demo2_chart_subject.charts)
 end
 
 @websocket "/demo2/ws" function(ws::HTTP.WebSocket)
