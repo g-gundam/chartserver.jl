@@ -29,6 +29,17 @@ julia> stop()   # stop the server
 
 # Log
 
+## [2025-01-16 Thu] - /demo2
+
+- This demo exists to:
+  + Express chart configuration as data and have the client-side use this data to construct charts.
+  + Get a feel for updating more than one chart on a page.
+  + Relay live websocket data from a real exchange into local charts in realtime.
+    - There were more tricky details here than I anticipated.
+    - Even though the demo is in a working state, I'm still trying to figure out a better way to do things.
+
+### http://localhost:8080/demo2
+
 ## [2025-01-02 Thu] - /demo
 - This demo exists to:
   + help me become familiar with lightweight-charts [realtime update](https://tradingview.github.io/lightweight-charts/tutorials/demos/realtime-updates) capabilities;
