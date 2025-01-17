@@ -54,6 +54,15 @@ julia> CS.demo2_start()
 Task (runnable, started) @0x0000796b6b69aa40
 ```
 
+### URLs of Interest
+
+There are the API endpoints that are supporting /demo2.
+
+- http://localhost:8080/demo2/charts :: chart configuration as data
+- http://localhost:8080/demo2/latest :: all series data for all charts
+- http://localhost:8080/demo2/latest/btcusd1m :: series data for chart btcusd1m
+- http://localhost:8080/demo2/latest/btcusd3m :: series data for chart btcusd3m
+
 ## [2025-01-02 Thu] - /demo
 - This demo exists to:
   + help me become familiar with lightweight-charts [realtime update](https://tradingview.github.io/lightweight-charts/tutorials/demos/realtime-updates) capabilities;
