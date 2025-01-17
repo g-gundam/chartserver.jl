@@ -57,7 +57,7 @@ There's no stop, yet.
 
 ### URLs of Interest
 
-There are the API endpoints that are supporting /demo2.
+These are the API endpoints that are supporting /demo2.
 
 - http://localhost:8080/demo2/charts :: chart configuration as data
 - http://localhost:8080/demo2/latest :: all series data for all charts
