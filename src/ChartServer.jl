@@ -244,6 +244,17 @@ end
          for (k, chart) in demo2_chart_subject.charts)
 end
 
+@get "/demo2/latest" function(req::HTTP.Request)
+    json(Dict(name => lwc_series(chart.df) for (name, chart) in demo2_chart_subject.charts))
+end
+
+@get "/demo2/latest/{name}" function(req::HTTP.Request, name::String)
+    @info :latest name
+    chart = demo2_chart_subject.charts[Symbol(name)]
+    json(lwc_series(chart.df))
+end
+
+
 @websocket "/demo2/ws" function(ws::HTTP.WebSocket)
     @info :connect id=ws.id
     room_join(:demo2, ws)
