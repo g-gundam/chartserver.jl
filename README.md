@@ -40,10 +40,6 @@ julia> stop()   # stop the server
 
 ### http://localhost:8080/demo2
 
-Run this and give it a few seconds to get connected.
-Then watch the chart at http://localhost:8080/demo2.
-There's no stop, yet.
-
 ```julia-repl
 julia> CS.demo2_start()
 ┌ Info: subscribe
@@ -54,6 +50,10 @@ julia> CS.demo2_start()
 └      :data    => {}
 Task (runnable, started) @0x0000796b6b69aa40
 ```
+
+Run the above and give it a few seconds to get connected.
+Then watch the chart at http://localhost:8080/demo2.
+There's no stop, yet.
 
 ### URLs of Interest
 
