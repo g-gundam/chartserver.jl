@@ -40,6 +40,20 @@ julia> stop()   # stop the server
 
 ### http://localhost:8080/demo2
 
+```julia-repl
+# Run this and give it a few seconds to get connected.
+# Then watch the chart at http://localhost:8080/demo2.
+# There's no stop, yet.
+julia> CS.demo2_start()
+┌ Info: subscribe
+│   bitstamp_ws_subscribe() =
+│    JSON3.Object{Base.CodeUnits{UInt8, String}, Vector{UInt64}} with 3 entries:
+│      :event   => "bts:subscription_succeeded"
+│      :channel => "live_trades_btcusd"
+└      :data    => {}
+Task (runnable, started) @0x0000796b6b69aa40
+```
+
 ## [2025-01-02 Thu] - /demo
 - This demo exists to:
   + help me become familiar with lightweight-charts [realtime update](https://tradingview.github.io/lightweight-charts/tutorials/demos/realtime-updates) capabilities;
