@@ -5,7 +5,7 @@ using Visor
 using Base.Threads # @spawn
 using CryptoMarketData
 using TechnicalIndicatorCharts
-using TechnicalIndicatorCharts: Chart
+using TechnicalIndicatorCharts: Chart, abbrev
 
 bitstamp_chart_btcusd1m = Chart(
     "BTCUSD", Minute(1),
@@ -133,6 +133,14 @@ function config(chart::Chart)
         ),
         :localization => Dict(
             :dateFormat => "yyyy-MM-dd",
+        ),
+        :watermark => Dict(
+            :visible => true,
+            :fontSize => 64,
+            :horzAlign => "center",
+            :vertAlign => "center",
+            :color => "rgba(20,20,20,0.1)",
+            :text => "$(chart.name) $(abbrev(chart.tf))",
         ),
         :autoSize => true,
         :width => 640,
