@@ -25,6 +25,17 @@ function createChart(config) {
   return { el, chart, series }
 }
 
+/**
+ * Hydrate a lightweight chart by loading JSON data from the given URL.
+ */
+async function loadSeries(series, url) {
+  let res = await fetch(url)
+  let json = await res.json()
+  for (k in json) {
+    series[k].setData(json[k])
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   console.info("Now what?")
 
@@ -40,6 +51,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // append to #workspace
   const workspace = document.getElementById("workspace")
   Object.keys(charts).forEach((name) => workspace.append(charts[name].el))
+
+  // load existing series data
+  for await (const name of Object.keys(charts)) {
+    await loadSeries(charts[name].series, `/demo2/latest/${name}`)
+  }
 
   // WebSockets
   const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
