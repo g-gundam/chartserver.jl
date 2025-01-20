@@ -236,7 +236,7 @@ include("demo2.jl")
 
 render_demo2 = Mustache.load(joinpath(ROOT, "tmpl", "demo2.html"))
 @get "/demo2" function(req::HTTP.Request)
-    render_demo2()
+    RENDER_FUNCTIONS["demo2.html"]()
 end
 
 @get "/demo2/charts" function(req::HTTP.Request)
@@ -253,7 +253,6 @@ end
     chart = demo2_chart_subject.charts[Symbol(name)]
     json(lwc_series(chart.df))
 end
-
 
 @websocket "/demo2/ws" function(ws::HTTP.WebSocket)
     @info :connect id=ws.id
@@ -274,5 +273,7 @@ end
         end
     end
 end
+
+include("watcher.jl")
 
 end
