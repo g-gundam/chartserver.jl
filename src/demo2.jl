@@ -54,10 +54,10 @@ end
 
 function demo2_start()
     bitstamp_ws_open()
-    # XXX: I can't sent the subscribe until the connection exists.  I wish I could, though.
-    #      Why can't it just sit in the channel?
-    sleep(3) # XXX: I can't sent the subscribe until the connection exists.  I wish I could, though.
-    @info :subscribe bitstamp_ws_subscribe()
+    tw = timedwait(5) do
+        return !ismissing(bitstamp_ws_session.commands)
+    end
+    @info :subscribe tw bitstamp_ws_subscribe()
     s = bitstamp_ws_session
     global demo2_task = @spawn while true
         msg = take!(s.messages)
