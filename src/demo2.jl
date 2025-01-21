@@ -42,7 +42,7 @@ subscribe!(demo2_chart_subject, demo2_websocket_actor)
 demo2_task = nothing
 
 function bitstamp_ws_open()
-    global bitstamp_ws_session = CryptoMarketData.subscribe(bitstamp_ws_uri)
+    global bitstamp_ws_session = WS.connect(bitstamp_ws_uri)
 end
 
 function bitstamp_ws_subscribe()
