@@ -1,0 +1,19 @@
+[*.jl]
+indent_style = space
+indent_size = 4
+charset = utf-8
+
+[*.js]
+indent_style = space
+indent_size = 2
+charset = utf-8
+
+[*.html]
+indent_style = space
+indent_size = 2
+charset = utf-8
+
+[*.css]
+indent_style = space
+indent_size = 2
+charset = utf-8
