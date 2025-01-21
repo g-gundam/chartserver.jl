@@ -73,6 +73,9 @@ function connect(uri::URI)
         try
             while true
                 command = take!(session.commands)
+                if command == :disconnect
+                    break
+                end
                 WebSockets.send(session.ws, command)
             end
         catch e
@@ -83,6 +86,16 @@ function connect(uri::URI)
     end
     session.task = Threads.@spawn WebSockets.open(handler, uri)
     return session
+end
+
+"""    disconnect(session::Session)
+
+Close the websocket connection and stop the task that was handling the connection.
+"""
+function disconnect(session::Session)
+    put!(session.commands, :disconnect)
+    WebSockets.close(session.ws)
+    schedule(session.task, InterruptException(); error=true)
 end
 
 end
