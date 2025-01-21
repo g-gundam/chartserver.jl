@@ -11,6 +11,7 @@ using Mustache
 using JSON3
 using Rocket
 using Base.Threads
+using URIs
 
 global __T__
 
