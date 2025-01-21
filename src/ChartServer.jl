@@ -16,6 +16,8 @@ using TechnicalIndicatorCharts
 
 using MarketData # data for demo purposes
 
+include("websockets.jl")
+
 # aka the project root
 const ROOT = dirname(dirname(@__FILE__))
 
