@@ -6,7 +6,14 @@ using Base.Threads # @spawn
 using CryptoMarketData
 using TechnicalIndicatorCharts
 using TechnicalIndicatorCharts: Chart, abbrev
+using DataStructures
 
+# room init just in case they haven't loaded /demo2 yet
+if !haskey(ROOMS, :demo2)
+    ROOMS[:demo2] = Set{HTTP.WebSocket}()
+end
+
+# BTCUSD1M
 bitstamp_chart_btcusd1m = Chart(
     "BTCUSD", Minute(1),
     indicators=[EMA{Float64}(period=9), EMA{Float64}(period=12)],
@@ -16,6 +23,7 @@ bitstamp_chart_btcusd1m = Chart(
     ]
 )
 
+# BTCUSD3M
 bitstamp_chart_btcusd3m = Chart(
     "BTCUSD", Minute(3),
     indicators=[EMA{Float64}(period=20)],
@@ -27,7 +35,7 @@ bitstamp_chart_btcusd3m = Chart(
     ]
 )
 
-demo2_chart_subject = ChartSubject(charts=Dict(
+demo2_chart_subject = ChartSubject(charts=OrderedDict(
     :btcusd1m => bitstamp_chart_btcusd1m,
     :btcusd3m => bitstamp_chart_btcusd3m
 ))
