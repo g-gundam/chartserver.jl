@@ -9,6 +9,7 @@ using Rocket
 using UUIDs
 using Dates
 using DataFrames
+using DataStructures
 
 using CryptoMarketData
 using OnlineTechnicalIndicators
@@ -242,7 +243,7 @@ render_demo2 = Mustache.load(joinpath(ROOT, "tmpl", "demo2.html"))
 end
 
 @get "/demo2/charts" function(req::HTTP.Request)
-    Dict(k => config(chart)
+    OrderedDict(k => config(chart)
          for (k, chart) in demo2_chart_subject.charts)
 end
 

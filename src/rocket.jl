@@ -58,7 +58,7 @@ end
 # String 3 = field name for indicator (like :sma50)
 # The rest is new data for the client-side charts.
 @kwdef mutable struct ChartSubject <: Rocket.AbstractSubject{Any}
-    charts::Dict{Symbol,Chart}
+    charts::AbstractDict{Symbol,Chart}
     subscribers::Vector = []
 end
 
