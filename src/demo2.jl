@@ -126,6 +126,14 @@ function config(chart::Chart)
         push!(series, config(indicator, visual))
     end
     return Dict(
+        :grid => Dict(
+            :vertLines => Dict(
+                :visible => false
+            ),
+            :horzLines => Dict(
+                :visible => false
+            )
+        ),
         :layout => Dict(
             :textColor => "black",
             :background => Dict(
