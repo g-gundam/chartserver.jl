@@ -62,8 +62,9 @@ end
 
 function demo2_start()
     bitstamp_ws_open()
-    tw = timedwait(5) do
-        return !ismissing(bitstamp_ws_session.commands)
+    # wait for session.commands to be ready before sending command to subscribe to stream of trades
+    commands_ready = timedwait(5) do
+        !ismissing(bitstamp_ws_session.commands)
     end
     @info :subscribe tw bitstamp_ws_subscribe()
     s = bitstamp_ws_session
