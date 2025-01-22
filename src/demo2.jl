@@ -66,7 +66,7 @@ function demo2_start()
     commands_ready = timedwait(5) do
         !ismissing(bitstamp_ws_session.commands)
     end
-    @info :subscribe tw bitstamp_ws_subscribe()
+    @info :subscribe commands_ready bitstamp_ws_subscribe()
     s = bitstamp_ws_session
     global demo2_task = @spawn while true
         msg = take!(s.messages)
@@ -75,10 +75,15 @@ function demo2_start()
         price = convert(Float64, m[:data][:price])
         Rocket.on_next!(demo2_chart_subject, (ts, price))
     end
+    room_broadcast(:demo2, "start")
 end
 
-# TODO: implement some kind of shutdown for websockets
+# Disconnect from the websocket, and stop the task that was consuming the ws data
+# and passing it on to the chart subject.
 function demo2_stop()
+    WS.disconnect(bitstamp_ws_session)
+    schedule(demo2_task, InterruptException; error=true)
+    room_broadcast(:demo2, "stop")
 end
 
 # XXX: Translate from LWC.jl to lwc.js key names
