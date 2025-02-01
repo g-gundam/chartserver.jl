@@ -1,3 +1,12 @@
+const {
+  AreaSeries,
+  BarSeries,
+  BaselineSeries,
+  CandlestickSeries,
+  HistogramSeries,
+  LineSeries
+} = LightweightCharts
+
 /**
  * Hydrate a lightweight chart by loading JSON data from the given URL.
  */
@@ -28,12 +37,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // TODO: In the next iteration, all this config info needs to come from the server.
   // I want chart state on the server to be reflected on the client in realtime.
-  const ohlc = chart.addCandlestickSeries({
+  const ohlc = chart.addSeries(CandlestickSeries, {
     upColor: '#26a69a', downColor: '#ef5350', borderVisible: false,
     wickUpColor: '#26a69a', wickDownColor: '#ef5350',
   });
-  const sma50 = chart.addLineSeries({ color: "#E072A4", lineWidth: 2 })
-  const sma200 = chart.addLineSeries({ color: "#3D3B8E", lineWidth: 5 })
+  const sma50 = chart.addSeries(LineSeries, { color: "#E072A4", lineWidth: 2 })
+  const sma200 = chart.addSeries(LineSeries, { color: "#3D3B8E", lineWidth: 5 })
   const series = {
     ohlc,
     sma50,
