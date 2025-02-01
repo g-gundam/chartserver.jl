@@ -10,6 +10,7 @@ filewatching_task = nothing
 function start_watcher()
     global filewatching_task = @spawn while true
         ev = FileWatching.watch_folder(joinpath(ROOT, "tmpl"))
+        @info :file_watcher ev
         RENDER_FUNCTIONS[ev.first] = Mustache.load(joinpath(ROOT, "tmpl", ev.first))
     end
 end
