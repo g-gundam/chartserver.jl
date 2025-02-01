@@ -2,6 +2,16 @@
 // - dynamic chart construction based on server-side chart config
 // - realtime data consumption
 
+// v4-to-v5: assign the various series types to consts
+const {
+  AreaSeries,
+  BarSeries,
+  BaselineSeries,
+  CandlestickSeries,
+  HistogramSeries,
+  LineSeries
+} = LightweightCharts
+
 // INFO: Not implementing it this time.
 function createLayout() {
 }
@@ -15,10 +25,10 @@ function createChart(config) {
     const seriesConfig = config._series[k]
     switch (seriesConfig._type) {
     case "ohlc":
-      series[k] = chart.addCandlestickSeries(seriesConfig)
+      series[k] = chart.addSeries(CandlestickSeries, seriesConfig)
       break;
     case "line":
-      series[k] = chart.addLineSeries(seriesConfig)
+      series[k] = chart.addSeries(LineSeries, seriesConfig)
       break;
     }
   })
@@ -56,6 +66,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   for await (const name of Object.keys(charts)) {
     await loadSeries(charts[name].series, `/demo2/latest/${name}`)
   }
+
+  // setup resize handlers
+  window.addEventListener('resize', () => {
+    Object.keys(charts).forEach((name) => {
+      const el = charts[name].el
+      const ch = charts[name].chart
+      console.log(`[resize] width: ${el.offsetWidth}, height: ${el.offsetHeight}, win.width: ${window.innerWidth}, win.height: ${window.innerHeight}`)
+      const width = window.innerWidth - 12
+      const height = window.innerHeight / 2
+      ch.resize(width, height, true)
+    })
+  })
 
   // WebSockets
   const wsProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
