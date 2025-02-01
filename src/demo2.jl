@@ -156,7 +156,7 @@ function config(chart::Chart)
         :localization => Dict(
             :dateFormat => "yyyy-MM-dd",
         ),
-        :watermark => Dict(
+        :watermark => Dict( # TODO: v4-to-v5 requires a change to how watermarks work.  I have to think about panels now.
             :visible => true,
             :fontSize => 64,
             :horzAlign => "center",

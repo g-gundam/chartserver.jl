@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     Object.keys(charts).forEach((name) => {
       const el = charts[name].el
       const ch = charts[name].chart
+      // TODO: Revisit this.
+      // For this to work, I have to disable autoSize on the chart.
       console.log(`[resize] width: ${el.offsetWidth}, height: ${el.offsetHeight}, win.width: ${window.innerWidth}, win.height: ${window.innerHeight}`)
       const width = window.innerWidth - 12
       const height = window.innerHeight / 2
