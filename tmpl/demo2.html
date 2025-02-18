@@ -10,17 +10,29 @@
     <script src="/js/demo2.js"></script>
   </head>
   <style>
+    html {
+      height: 100%;
+      margin: 0;
+    }
     body {
-        height: 99vh;
+      height: 100%;
+      margin: 0;
+      display: grid;
+    }
+    #menu {
+      background-color: lightblue;
     }
     #workspace {
         display: grid;
-        grid-template-rows: repeat(auto, 1fr);
+        grid-template-rows: 80px repeat(auto, 1fr);
         height: 100%;
         gap: 4px;
     }
   </style>
   <body>
+    <div id="menu">
+      hi
+    </div>
     <div id="workspace">
     </div>
   </body>
