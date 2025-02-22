@@ -121,6 +121,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  const startInput = document.getElementById('start')
+  startInput.addEventListener('click', (ev) => {
+    ws.send(JSON.stringify({ type: "start" }))
+  })
+
   window.ws = ws
   window.chartConfigs = chartConfigs
   window.charts = charts

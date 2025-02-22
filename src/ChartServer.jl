@@ -267,6 +267,12 @@ end
             if msg.type == "id"
                 @info :id id=ws.id
                 WebSockets.send(ws, JSON3.write(Dict(:id => ws.id)))
+            elseif msg.type == "start"
+                @warn :start
+                demo2_start()
+            elseif msg.type == "stop"
+                @warn :stop
+                demo2_stop()
             else
                 WebSockets.send(ws, JSON3.write((;type="unknown", msg=msg)))
             end
