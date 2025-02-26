@@ -1,6 +1,6 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.2"
+julia_version = "1.11.3"
 manifest_format = "2.0"
 project_hash = "4dc78b4914cc6697b99877c9059b053b1a26472c"
 
@@ -423,9 +423,9 @@ version = "1.7.0"
 
 [[deps.Oxygen]]
 deps = ["DataStructures", "Dates", "HTTP", "JSON3", "MIMEs", "Reexport", "RelocatableFolders", "Sockets", "Statistics", "StructTypes"]
-git-tree-sha1 = "b2149c16470e8f0a824bc6861183a9becb8b0ac9"
+git-tree-sha1 = "bec2031bcea6aed32e70d85eb127e64cff1d8a94"
 uuid = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
-version = "1.6.0"
+version = "1.7.1"
 
     [deps.Oxygen.extensions]
     BonitoExt = "Bonito"
@@ -433,6 +433,7 @@ version = "1.6.0"
     MustacheExt = "Mustache"
     OteraEngineExt = "OteraEngine"
     ProtoBufExt = "ProtoBuf"
+    TimeZonesExt = "TimeZones"
     WGLMakieExt = ["WGLMakie", "Bonito"]
 
     [deps.Oxygen.weakdeps]
@@ -441,6 +442,7 @@ version = "1.6.0"
     Mustache = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
     OteraEngine = "b2d7f28f-acd6-4007-8b26-bc27716e5513"
     ProtoBuf = "3349acd9-ac6a-5e09-bcdb-63829b23a429"
+    TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
     WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [[deps.Parsers]]
@@ -513,9 +515,9 @@ version = "1.0.1"
 
 [[deps.Rocket]]
 deps = ["DataStructures", "Sockets", "Unrolled"]
-git-tree-sha1 = "c405231d77d3ff6c9eb6dc2da48147e761888ac1"
+git-tree-sha1 = "af6e944256dc654a534082f08729afc1189933e4"
 uuid = "df971d30-c9d6-4b37-b8ff-e965b2cb3a40"
-version = "1.8.1"
+version = "1.8.2"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -644,9 +646,9 @@ version = "1.12.0"
 
 [[deps.TechnicalIndicatorCharts]]
 deps = ["Chain", "DataFrames", "DataFramesMeta", "DataStructures", "Dates", "DocStringExtensions", "LightweightCharts", "NanoDates", "OnlineTechnicalIndicators", "TidyTest"]
-git-tree-sha1 = "6645cca27daa7b64a410468aa76df9e8706e6142"
+git-tree-sha1 = "af4fcaf5f32f1bdc7cb1bcff8c8af9ed3631897f"
 uuid = "ffc6123f-ba44-4b2f-a8ce-46f3306b22af"
-version = "0.6.3"
+version = "0.6.6"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
