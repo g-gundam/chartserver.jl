@@ -1,8 +1,8 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.3"
+julia_version = "1.11.4"
 manifest_format = "2.0"
-project_hash = "4dc78b4914cc6697b99877c9059b053b1a26472c"
+project_hash = "dcb4c7a9c0b4b516563f29c08751fb6dc9b7cb70"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -718,9 +718,9 @@ version = "0.1.5"
 
 [[deps.Visor]]
 deps = ["DataStructures", "Dates", "Logging", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "e30d107271938d64f9dbc31bd5b64be70748a34f"
+git-tree-sha1 = "c0e5fadbb3b54f48644442a3e66f404dc9e98df4"
 uuid = "cf786855-3531-4b86-ba6e-3e33dce7dcdb"
-version = "0.7.4"
+version = "0.8.0"
 
 [[deps.WeakRefStrings]]
 deps = ["DataAPI", "InlineStrings", "Parsers"]
