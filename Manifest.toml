@@ -718,9 +718,9 @@ version = "0.1.5"
 
 [[deps.Visor]]
 deps = ["DataStructures", "Dates", "Logging", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "c0e5fadbb3b54f48644442a3e66f404dc9e98df4"
+git-tree-sha1 = "2ce073644e61587171f3692d1dc5fb3b5598987c"
 uuid = "cf786855-3531-4b86-ba6e-3e33dce7dcdb"
-version = "0.8.0"
+version = "0.8.1"
 
 [[deps.WeakRefStrings]]
 deps = ["DataAPI", "InlineStrings", "Parsers"]
