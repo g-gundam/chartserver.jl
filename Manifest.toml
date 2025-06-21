@@ -423,9 +423,9 @@ version = "1.7.0"
 
 [[deps.Oxygen]]
 deps = ["DataStructures", "Dates", "HTTP", "JSON3", "MIMEs", "Reexport", "RelocatableFolders", "Sockets", "Statistics", "StructTypes"]
-git-tree-sha1 = "bec2031bcea6aed32e70d85eb127e64cff1d8a94"
+git-tree-sha1 = "7aab89647a9523dc62ac2cc8e844d097b9c1aa47"
 uuid = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
-version = "1.7.1"
+version = "1.7.2"
 
     [deps.Oxygen.extensions]
     BonitoExt = "Bonito"
