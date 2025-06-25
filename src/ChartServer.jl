@@ -18,6 +18,7 @@ using TechnicalIndicatorCharts
 using MarketData # data for demo purposes
 
 include("websockets.jl")
+include("pages.jl")
 
 # aka the project root
 const ROOT = dirname(dirname(@__FILE__))
@@ -156,7 +157,7 @@ staticfiles(joinpath(ROOT, "www", "images"), "images")
 # routes
 render_home = Mustache.load(joinpath(ROOT, "tmpl", "home.html"))
 @get "/" function(req::HTTP.Request)
-    render_home()
+    Pages.home()
 end
 
 @websocket "/demo-ws" function(ws::HTTP.WebSocket)

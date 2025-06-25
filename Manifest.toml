@@ -2,7 +2,7 @@
 
 julia_version = "1.11.5"
 manifest_format = "2.0"
-project_hash = "dcb4c7a9c0b4b516563f29c08751fb6dc9b7cb70"
+project_hash = "6146ae894b05d055bcd63d1fbb01cd253e2ccaa9"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -42,6 +42,12 @@ version = "0.10.15"
 git-tree-sha1 = "9ae9be75ad8ad9d26395bf625dea9beac6d519f1"
 uuid = "8be319e6-bccf-4806-a6f7-6fae938471bc"
 version = "0.6.0"
+
+[[deps.CodeTracking]]
+deps = ["InteractiveUtils", "UUIDs"]
+git-tree-sha1 = "062c5e1a5bf6ada13db96a4ae4749a4c2234f521"
+uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
+version = "1.3.9"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
@@ -178,6 +184,24 @@ deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapp
 git-tree-sha1 = "f93655dc73d7a0b4a368e3c0bce296ae035ad76e"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 version = "1.10.16"
+
+[[deps.HypertextTemplates]]
+deps = ["CodeTracking", "InteractiveUtils", "MacroTools", "PackageExtensionCompat", "Random", "SimpleBufferStream", "TOML"]
+git-tree-sha1 = "382d7e7ad06091209d4aaa0cdcb5ac3439b5a0d4"
+uuid = "c7d46f9d-34c3-4420-bf57-257f25aec718"
+version = "2.2.2"
+
+    [deps.HypertextTemplates.extensions]
+    HypertextTemplatesBonitoExt = "Bonito"
+    HypertextTemplatesCommonMarkExt = "CommonMark"
+    HypertextTemplatesHTTPExt = "HTTP"
+    HypertextTemplatesReviseExt = "Revise"
+
+    [deps.HypertextTemplates.weakdeps]
+    Bonito = "824d6782-a2ef-11e9-3a09-e5662e0c26f8"
+    CommonMark = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
+    HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+    Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 
 [[deps.InlineStrings]]
 git-tree-sha1 = "45521d31238e87ee9f9732561bfee12d4eebd52d"
@@ -444,6 +468,15 @@ version = "1.7.2"
     ProtoBuf = "3349acd9-ac6a-5e09-bcdb-63829b23a429"
     TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
     WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
+
+[[deps.PackageExtensionCompat]]
+git-tree-sha1 = "fb28e33b8a95c4cee25ce296c817d89cc2e53518"
+uuid = "65ce6f38-6b18-4e1d-a461-8949797d7930"
+version = "1.0.2"
+
+    [deps.PackageExtensionCompat.weakdeps]
+    Requires = "ae029012-a4dd-5104-9daa-d747884805df"
+    TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
