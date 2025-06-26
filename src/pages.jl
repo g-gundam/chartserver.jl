@@ -3,6 +3,10 @@ module Pages
 using HypertextTemplates
 using HypertextTemplates.Elements
 
+"""@layout {theme, title} ...
+
+Standard page layout for chartserver.jl pages.
+"""
 @component function layout(; theme="dark", title="Title")
     @html { lang="en" } begin
         @head begin
@@ -15,6 +19,10 @@ using HypertextTemplates.Elements
 end
 @deftag macro layout end
 
+"""home 
+
+Return HTML for the home page.  Go!
+"""
 function home()
     @render @layout { title="chartserver.jl" } begin
         @h1 @a { href="/demo" }  "Demo"
