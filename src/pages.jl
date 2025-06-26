@@ -28,6 +28,7 @@ function home()
         @h1 @a { href="/demo" }  "Demo"
         @h1 @a { href="/demo2" } "Demo 2"
         @h1 @a { href="/docs" }  "Docs"
+        @h1 @a { href="/docs/metrics" } "Metrics"
     end
 end
 
