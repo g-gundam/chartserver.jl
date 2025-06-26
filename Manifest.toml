@@ -186,10 +186,10 @@ uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 version = "1.10.17"
 
 [[deps.HypertextTemplates]]
-deps = ["CodeTracking", "InteractiveUtils", "MacroTools", "PackageExtensionCompat", "Random", "SimpleBufferStream", "TOML"]
-git-tree-sha1 = "382d7e7ad06091209d4aaa0cdcb5ac3439b5a0d4"
+deps = ["CodeTracking", "InteractiveUtils", "MacroTools", "PackageExtensionCompat", "Random", "TOML"]
+git-tree-sha1 = "0a207e8f234020beb2b269c60b80b4e29eaa9f44"
 uuid = "c7d46f9d-34c3-4420-bf57-257f25aec718"
-version = "2.2.2"
+version = "2.2.3"
 
     [deps.HypertextTemplates.extensions]
     HypertextTemplatesBonitoExt = "Bonito"
