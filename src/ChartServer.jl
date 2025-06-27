@@ -155,7 +155,6 @@ dynamicfiles(joinpath(ROOT, "www", "js"), "js")
 staticfiles(joinpath(ROOT, "www", "images"), "images")
 
 # routes
-render_home = Mustache.load(joinpath(ROOT, "tmpl", "home.html"))
 @get "/" function(req::HTTP.Request)
     Pages.home()
 end
